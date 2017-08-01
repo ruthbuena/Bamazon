@@ -40,13 +40,13 @@ function buyItem() {
     ])
     .then(function(input) {
       // console.log('input')
-      var item = input.item_id;
-      var quantity = input.stock_quantity;
+      var item = parseInt(input.item_id);
+      var quantity = parseInt(input.stock_quantity);
 
       var queryItem = 'SELECT * FROM products WHERE ?';
 
       connection.query(queryItem, {
-        item_id: item
+        id: item
       }, function(err, data) {
         if (err) throw err;
 
@@ -59,9 +59,11 @@ function buyItem() {
           if (quantity <= productData.stock_quantity) {
             console.log('Your order is being placed now.');
 
-            var currentInventory = 'UPDATE products SET stock_quantity = ' + (productData.stock_quantity - quantity) + 'WHERE item_id = ' + item;
+            // var currentInventory = 'UPDATE products SET stock_quantity = ' + (productData.stock_quantity - quantity) + 'WHERE id = ' + item;
 
-            connection.query(currentInventory, function(err, data) {
+            var updateQuery = "UPDATE products SET stock_quantity = ? WHERE id = ?";
+
+            connection.query(updateQuery, [(productData.stock_quantity - quantity), item], function(err, data) {
               if (err) throw err;
 
               console.log('Your order has been placed!');
