@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var Table = require('cli-table');
+// var Table = require('cli-table');
 var inquirer = require('inquirer');
 
 var connection = mysql.createConnection({
@@ -60,36 +60,28 @@ function managerView(){
 function viewProducts() {
 
   connection.query('SELECT * FROM Products', function(err, res) {
-    var table = new Table({
-      head: ['ID Number', 'Product', 'Department', 'Price', 'Quantity Available']
-    });
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
-      table.push([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
+      console.log([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
     }
-    console.log(JSON.parse(table));
-    cb();
-  })
-}
+    // console.log(JSON.parse(table));
+    // cb();
+})
 
 // View items that are low on inventory, specifically items that have a count lower than five.
-function viewLowInventory(cb) {
+function viewLowInventory() {
   connection.query('SELECT * FROM Products WHERE StockQuantity < 5',
     function(err, res) {
       if (err) throw err;
       if (res.length === 0) {
         console.log('There are no items with low inventory.');
-        cb();
+        // cb();
       } else {
-        var table = new Table({
-          head: ['ID Number', 'Product', 'Department', 'Price', 'Quantity Available']
-        });
         for (var i = 0; i < res.length; i++) {
-          table.push([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
+          console.log([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
         }
-        console.log(table.toString());
         console.log('These items are running low.');
-        cb();
+        // cb();
       }
     });
 }
@@ -204,6 +196,7 @@ function addNewProduct() {
         if (err) throw err;
         console.log(item.ProductName + ' has been added to the inventory.');
         managerView();
-      });
+      })
   });
+};
 }
