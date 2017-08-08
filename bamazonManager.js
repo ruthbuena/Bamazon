@@ -57,38 +57,39 @@ function managerView(){
 }
 
 // List every available item including id, names, prices and quantities.
-function viewProducts(view) {
-  var table = new Table({
-    head: ['ID Number', 'Product', 'Department', 'Price', 'Quantity Available']
-  });
+function viewProducts() {
+
   connection.query('SELECT * FROM Products', function(err, res) {
+    var table = new Table({
+      head: ['ID Number', 'Product', 'Department', 'Price', 'Quantity Available']
+    });
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
-      table.push([res[i].ItemID, res[i].ProductName, res[i].DepartmentName, '$' + res[i].Price, res[i].StockQuantity]);
+      table.push([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
     }
-    console.log(table);
-    view();
-  });
+    console.log(JSON.parse(table));
+    cb();
+  })
 }
 
 // View items that are low on inventory, specifically items that have a count lower than five.
-function viewLowInventory(view) {
+function viewLowInventory(cb) {
   connection.query('SELECT * FROM Products WHERE StockQuantity < 5',
     function(err, res) {
       if (err) throw err;
       if (res.length === 0) {
         console.log('There are no items with low inventory.');
-        view();
+        cb();
       } else {
         var table = new Table({
           head: ['ID Number', 'Product', 'Department', 'Price', 'Quantity Available']
         });
         for (var i = 0; i < res.length; i++) {
-          table.push([res[i].ItemID, res[i].ProductName, res[i].DepartmentName, '$' + res[i].Price.toFixed(2), res[i].StockQuantity]);
+          table.push([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
         }
         console.log(table.toString());
         console.log('These items are running low.');
-        view();
+        cb();
       }
     });
 }
@@ -96,11 +97,11 @@ function viewLowInventory(view) {
 // Function that creates a prompt that will let the manager add more of any item.
 function addToInventory() {
   var items = [];
-  connection.query('SELECT ProductName FROM Products', function(err, res) {
+  connection.query('SELECT ProductName FROM products', function(err, res) {
     if (err) throw err;
-    for (var i = 0; i < res.length; i++) {
+    for (var i = 0; i < res.length; i++)
       items.push(res[i].ProductName)
-    }
+    })
     inquirer.prompt([{
       name: 'choices',
       type: 'checkbox',
@@ -114,8 +115,8 @@ function addToInventory() {
         howMany(user.choices);
       }
     });
-  });
-}
+  };
+
 
 // Function to add specific units to inventory
 function howMany(itemNames) {
@@ -178,8 +179,8 @@ function addNewProduct() {
     {
       name: 'department',
       type: 'list',
-      message: 'Which department does this item belong to?',
-      choices: departments
+      message: 'Which department does this item belong to?'
+      // choices: departments
     },
     {
       name: 'price',
