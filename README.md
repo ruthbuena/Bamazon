@@ -2,6 +2,8 @@ Bamazon
 
 In this Repository, users have the ability to create and maintain a marketplace using Node.js and MySQL.
 
+Part I - Customer View
+
 In Part I, a database (named: bamazon) has been created using MySQL to keep track of inventory.  The Id number, product name, department name, price and stock quantity for each product will be maintained in the bamazon database.  A node application (named: bamazonCustomer.js) has been created to allow customers to purchase items based on availability.  The bamazon database will be updated after purchases are completed.
 
 Below is an image of the schema used to create the database using MySQL:
@@ -16,9 +18,17 @@ This is a print screen of a purchase made in the bash terminal (triggered by com
 Below is an image of the updated table after the purchase above was made (Note: The units for Item id 4 was updated to 8 based on the purchase of 2 units):
 ![Bamazon Products Table - after purchase](images/tableAfter.png)
 
-Below is a screen shot in the terminal where the user is attempting to buy more units than what is available in inventory: 
+Below is a screen shot in the terminal where the user is attempting to buy more units than what is available in inventory:
 ![Bamazon Purchase - quantity not available](images/purchaseError.png)
 
 Part II - Manager View
 
+In Part II, users have the ability to choose between the following options using a new Node application (called bamazonManager.js):
 
+* View Products for Sale
+* View Low Inventory
+* Add to Inventory
+* Add New Products
+
+Below is a screen shot from the bash terminal (triggered by running: node bamazonManager.js):
+![bamazon Manager command line screen shot](images/partII.png)
