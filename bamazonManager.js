@@ -1,5 +1,4 @@
 var mysql = require('mysql');
-// var Table = require('cli-table');
 var inquirer = require('inquirer');
 
 var connection = mysql.createConnection({
@@ -13,7 +12,6 @@ var connection = mysql.createConnection({
 //connect to mysql database and begin application by running managerView function
 connection.connect(function(err) {
     if (err) throw err;
-    // console.log("connected as id " + connection.threadId);
     managerView();
 });
 
@@ -64,8 +62,6 @@ function viewProducts() {
     for (var i = 0; i < res.length; i++) {
       console.log([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
     }
-    // console.log(JSON.parse(table));
-    // cb();
 })
 
 // View items that are low on inventory, specifically items that have a count lower than five.
@@ -81,7 +77,6 @@ function viewLowInventory() {
           console.log([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
         }
         console.log('These items are running low.');
-        // cb();
       }
     });
 }
