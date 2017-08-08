@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 //connect to mysql database and begin application by running managerView function
 connection.connect(function(err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
+    // console.log("connected as id " + connection.threadId);
     managerView();
 });
 
