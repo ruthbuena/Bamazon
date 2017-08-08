@@ -21,4 +21,4 @@ Below is a screen shot in the terminal where the user is attempting to buy more 
 
 Part II - Manager View
 
-Part III - Supervisor View
+
