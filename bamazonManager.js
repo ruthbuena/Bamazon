@@ -60,13 +60,15 @@ function viewProducts() {
   connection.query('SELECT * FROM Products', function(err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
-      console.log([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
+      console.log([res[i].id, res[i].product_name, res[i].department_name,res[i].price, res[i].stock_quantity]);
+      // console.log(res[i]);
     }
 })
+}
 
 // View items that are low on inventory, specifically items that have a count lower than five.
 function viewLowInventory() {
-  connection.query('SELECT * FROM Products WHERE StockQuantity < 5',
+  connection.query('SELECT * FROM Products WHERE stock_quantity < 5',
     function(err, res) {
       if (err) throw err;
       if (res.length === 0) {
@@ -74,7 +76,7 @@ function viewLowInventory() {
         // cb();
       } else {
         for (var i = 0; i < res.length; i++) {
-          console.log([res[i].id, res[i].ProductName, res[i].DepartmentName,res[i].Price, res[i].StockQuantity]);
+          console.log([res[i].id, res[i].product_name, res[i].department_name,res[i].price, res[i].stock_quantity]);
         }
         console.log('These items are running low.');
       }
@@ -84,10 +86,10 @@ function viewLowInventory() {
 // Function that creates a prompt that will let the manager add more of any item.
 function addToInventory() {
   var items = [];
-  connection.query('SELECT ProductName FROM products', function(err, res) {
+  connection.query('SELECT product_name FROM products', function(err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++)
-      items.push(res[i].ProductName)
+      items.push(res[i].product_name)
     })
     inquirer.prompt([{
       name: 'choices',
@@ -109,11 +111,11 @@ function addToInventory() {
 function howMany(itemNames) {
   var item = itemNames.shift();
   var itemStock;
-  connection.query('SELECT StockQuantity FROM Products WHERE ?', {
-    ProductName: item
+  connection.query('SELECT stock_quantity FROM Products WHERE ?', {
+    product_name: item
   }, function(err, res) {
     if (err) throw err;
-    itemStock = res[0].StockQuantity;
+    itemStock = res[0].stock_quantity;
     itemStock = parseInt(itemStock)
   });
   inquirer.prompt([{
@@ -132,10 +134,10 @@ function howMany(itemNames) {
     var amount = user.amount
     amount = parseInt(amount);
     connection.query('UPDATE Products SET ? WHERE ?', [{
-        StockQuantity: itemStock += amount
+        stock_quantity: itemStock += amount
       },
       {
-        ProductName: item
+        product_name: item
       }
     ], function(err) {
       if (err) throw err;
@@ -152,10 +154,10 @@ function howMany(itemNames) {
 //function to add a new product to the Products table
 function addNewProduct() {
   var departments = [];
-  connection.query('SELECT DepartmentName FROM Departments', function(err, res) {
+  connection.query('SELECT department_name FROM products', function(err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
-      departments.push(res[i].DepartmentName);
+      departments.push(res[i].department_name);
     }
   });
   inquirer.prompt([{
@@ -166,8 +168,8 @@ function addNewProduct() {
     {
       name: 'department',
       type: 'list',
-      message: 'Which department does this item belong to?'
-      // choices: departments
+      message: 'Which department does this item belong to?',
+      choices: departments
     },
     {
       name: 'price',
@@ -181,17 +183,16 @@ function addNewProduct() {
     }
   ]).then(function(user) {
     var item = {
-      ProductName: user.item,
-      DepartmentName: user.department,
-      Price: user.price,
-      StockQuantity: user.stock
+      product_name: user.item,
+      department_name: user.department,
+      price: user.price,
+      stock_quantity: user.stock
     }
     connection.query('INSERT INTO Products SET ?', item,
       function(err) {
         if (err) throw err;
-        console.log(item.ProductName + ' has been added to the inventory.');
+        console.log(item.product_name + ' has been added to the inventory.');
         managerView();
       })
   });
 };
-}
