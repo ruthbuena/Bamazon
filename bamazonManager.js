@@ -86,15 +86,15 @@ function viewLowInventory() {
 // Function that creates a prompt that will let the manager add more of any item.
 function addToInventory() {
   var items = [];
-  connection.query('SELECT product_name FROM products', function(err, res) {
+  connection.query('SELECT id FROM products', function(err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++)
-      items.push(res[i].product_name)
+      items.push(res[i].id)
     })
     inquirer.prompt([{
       name: 'choices',
       type: 'checkbox',
-      message: 'Which products would you to add more of?',
+      message: 'Which item by ID number, would you like to add more of?',
       choices: items
     }]).then(function(user) {
       if (user.choices.length === 0) {
@@ -112,7 +112,7 @@ function howMany(itemNames) {
   var item = itemNames.shift();
   var itemStock;
   connection.query('SELECT stock_quantity FROM Products WHERE ?', {
-    product_name: item
+    id: item
   }, function(err, res) {
     if (err) throw err;
     itemStock = res[0].stock_quantity;
@@ -137,7 +137,7 @@ function howMany(itemNames) {
         stock_quantity: itemStock += amount
       },
       {
-        product_name: item
+        id: item
       }
     ], function(err) {
       if (err) throw err;
