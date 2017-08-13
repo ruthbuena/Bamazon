@@ -57,7 +57,7 @@ function managerView(){
 // List every available item including id, names, prices and quantities.
 function viewProducts() {
 
-  connection.query('SELECT * FROM Products', function(err, res) {
+  connection.query('SELECT * FROM products', function(err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
       console.log([res[i].id, res[i].product_name, res[i].department_name,res[i].price, res[i].stock_quantity]);
@@ -68,7 +68,7 @@ function viewProducts() {
 
 // View items that are low on inventory, specifically items that have a count lower than five.
 function viewLowInventory() {
-  connection.query('SELECT * FROM Products WHERE stock_quantity < 5',
+  connection.query('SELECT * FROM products WHERE stock_quantity < 5',
     function(err, res) {
       if (err) throw err;
       if (res.length === 0) {
@@ -85,71 +85,92 @@ function viewLowInventory() {
 
 // Function that creates a prompt that will let the manager add more of any item.
 function addToInventory() {
-  var items = [];
-  connection.query('SELECT id FROM products', function(err, res) {
-    if (err) throw err;
-    for (var i = 0; i < res.length; i++)
-      items.push(res[i].id)
-    })
-    inquirer.prompt([{
+    inquirer.prompt([
+      {
       name: 'choices',
-      type: 'checkbox',
+      type: 'input',
       message: 'Which item by ID number, would you like to add more of?',
-      choices: items
-    }]).then(function(user) {
-      if (user.choices.length === 0) {
+      validate: function(str) {
+          if (isNaN(parseInt(str))) {
+            console.log('Error');
+            return false;
+          } else {
+            return true;
+          }
+        }
+      },
+      {
+        name: 'amount',
+        type: 'text',
+        message: 'How many ' + item + ' would you like to add?'
+      }
+
+  ]).then(function(user) {
+      // console.log(user.choices);
+
+      if (user.choices.length === 0 && user.amount.) {
         console.log('Error!');
         managerView();
       } else {
-        howMany(user.choices);
+        var
+        connection.query('SELECT * FROM products WHERE id = ?',user.choices, function(err, res) {
+          if (err) throw err;
+          console.log(res);
+          // howMany(user.choices);
+          // for (var i = 0; i < res.length; i++){
+          //   items.push(res[i].id)
+          // }
+
+        })
+        .query('INSERT ')
       }
     });
   };
 
 
 // Function to add specific units to inventory
-function howMany(itemNames) {
-  var item = itemNames.shift();
-  var itemStock;
-  connection.query('SELECT stock_quantity FROM Products WHERE ?', {
-    id: item
-  }, function(err, res) {
-    if (err) throw err;
-    itemStock = res[0].stock_quantity;
-    itemStock = parseInt(itemStock)
-  });
-  inquirer.prompt([{
-    name: 'amount',
-    type: 'text',
-    message: 'How many ' + item + ' would you like to add?',
-    validate: function(str) {
-      if (isNaN(parseInt(str))) {
-        console.log('Error');
-        return false;
-      } else {
-        return true;
-      }
-    }
-  }]).then(function(user) {
-    var amount = user.amount
-    amount = parseInt(amount);
-    connection.query('UPDATE Products SET ? WHERE ?', [{
-        stock_quantity: itemStock += amount
-      },
-      {
-        id: item
-      }
-    ], function(err) {
-      if (err) throw err;
-    });
-    if (itemNames.length != 0) {
-      howMany(itemNames);
-    } else {
-      console.log('Inventory has been updated.');
-      managerView();
-    }
-  });
-}
+// function howMany(itemNames) {
+//   var item = itemNames.shift();
+//   var itemStock;
+//   connection.query('SELECT stock_quantity FROM products WHERE ?', {
+//     id: item
+//   }, function(err, res) {
+//     if (err) throw err;
+//     itemStock = res[0].stock_quantity;
+//     itemStock = parseInt(itemStock)
+//   });
+//   inquirer.prompt([{
+//     name: 'amount',
+//     type: 'text',
+//     message: 'How many ' + item + ' would you like to add?',
+//     validate: function(str) {
+//       if (isNaN(parseInt(str))) {
+//         console.log('Error');
+//         return false;
+//       } else {
+//         return true;
+//       }
+//     }
+//   }]).then(function(user) {
+//     var amount = user.amount
+//     amount = parseInt(amount);
+//     connection.query('INSERT products SET ?', [{
+//         stock_quantity: itemStock += amount
+//       },
+//       {
+//         id: item
+//       }
+//     ], function(err) {
+//       if (err) throw err;
+//     });
+//     if (itemNames.length != 0) {
+//       howMany(itemNames);
+//     } else {
+//       console.log('Inventory has been updated.');
+//       managerView();
+//     }
+//   });
+// }
 
 //function to add a new product to the Products table
 function addNewProduct() {
