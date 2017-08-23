@@ -38,10 +38,10 @@ The following will appear when users select View Products for Sale:
 Users will view the following in the CLI when selecting View Low Inventory. The query for low inventory has been set to only list items that have a quantity lower than five:
 ![bamazon Manager view low inventory](images/ManagerLowInventory.png)
 
-Below is a sampling of a new product  being added to the marketplace:
+Below is a sampling of a new product being added to the marketplace:
 ![bamazon Manager Add New](images/ManagerAddNew.png)
 
-An updated view of the MySQL database showing the new produc that was added:
+An updated view of the MySQL database showing the new product that was added:
 ![bamazon Manager DB update](images/ManagerAddItem.png)
 
 Users may exit the CLI by selecting the Exit option:
