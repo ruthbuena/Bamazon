@@ -35,12 +35,14 @@ Below is a screen shot from the bash terminal (triggered by running: node bamazo
 The following will appear when users select View Products for Sale:
 ![bamazon Manager view products](images/ManagerViewProducts.png)
 
-Users will view the following in the CLI when selecting View Low Inventory:
+Users will view the following in the CLI when selecting View Low Inventory. The query for low inventory has been set to only list items that have a quantity lower than five:
 ![bamazon Manager view low inventory](images/ManagerLowInventory.png)
 
-Below is a sampling of a user that has added a new product to the marketplace as well as an updated view of the MySQL database showing the new product:
+Below is a sampling of a new product  being added to the marketplace:
 ![bamazon Manager Add New](images/ManagerAddNew.png)
+
+An updated view of the MySQL database showing the new produc that was added:
 ![bamazon Manager DB update](images/ManagerAddItem.png)
 
-Users may exit the CLI by selecting the Exti option:
+Users may exit the CLI by selecting the Exit option:
 ![bamazon Manager Exit](images/ManagerExit.png)
