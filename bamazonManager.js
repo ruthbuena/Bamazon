@@ -9,6 +9,8 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
+var inventoryAdd = [];
+
 //connect to mysql database and begin application by running managerView function
 connection.connect(function(err) {
     if (err) throw err;
@@ -82,40 +84,32 @@ function viewLowInventory() {
       }
     });
 }
-
 // Function that creates a prompt that will let the manager add more of any item.
 function addToInventory() {
-    inquirer.prompt([
-      {
-      name: 'choices',
-      type: 'input',
-      message: 'Which item by ID number, would you like to add more of?',
-      validate: function(str) {
-          if (isNaN(parseInt(str))) {
-            console.log('Error');
-            return false;
-          } else {
-            return true;
-          }
+  inquirer.prompt([{
+          name: 'choices',
+          type: 'input',
+          message: 'Which item by ID number, would you like to add more of?',
+        },
+        {
+          name: 'amount',
+          type: 'text',
+          message: 'How many ' + item + ' would you like to add?'
         }
-      },
-      {
-        name: 'amount',
-        type: 'text',
-        message: 'How many ' + item + ' would you like to add?'
-      }
 
   ]).then(function(user) {
       // console.log(user.choices);
-
-      if (user.choices.length === 0 && user.amount.) {
+      if (user.choices.length === 0 && user.amount) {
         console.log('Error!');
         managerView();
       } else {
-        var
+        connection.query("UPDATE Products SET stock_quantity = (stock_quantity + ?);", function(err,result){
+          if(err) console.log('error ' + err);
+
         connection.query('SELECT * FROM products WHERE id = ?',user.choices, function(err, res) {
-          if (err) throw err;
-          console.log(res);
+          console.log('');
+          console.log('The new updated units for id# '+ inventoryAdd[0].id+ ' is ' + resOne[0].stock_quantity);
+          console.log('');
           // howMany(user.choices);
           // for (var i = 0; i < res.length; i++){
           //   items.push(res[i].id)
@@ -123,9 +117,9 @@ function addToInventory() {
 
         })
         .query('INSERT ')
-      }
-    });
-  };
+      })
+    };
+  });
 
 
 // Function to add specific units to inventory
@@ -214,6 +208,7 @@ function addNewProduct() {
         if (err) throw err;
         console.log(item.product_name + ' has been added to the inventory.');
         managerView();
-      })
+      });
   });
-};
+}
+}
