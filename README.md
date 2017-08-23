@@ -1,6 +1,6 @@
 Bamazon
 
-In this Repository, Bamazon has been built to allow users the ability to create and maintain a marketplace using Node.js and MySQL.
+In this repository, Bamazon has been built to allow users the ability to create and maintain a marketplace using Node.js and MySQL.
 
 Part I - Customer View
 
