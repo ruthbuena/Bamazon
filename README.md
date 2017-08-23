@@ -23,12 +23,24 @@ Below is a screen shot in the terminal where the user is attempting to buy more 
 
 Part II - Manager View
 
-In Part II, users have the ability to choose between the following options using a new Node application (called bamazonManager.js):
+In Part II, users have the ability to choose between options of viewing products, viewing low inventory, and adding new products using Node application, bamazonManager.js:
 
 * View Products for Sale
 * View Low Inventory
-* Add to Inventory
 * Add New Products
 
 Below is a screen shot from the bash terminal (triggered by running: node bamazonManager.js):
 ![bamazon Manager command line screen shot](images/partII.png)
+
+The following will appear when users select View Products for Sale:
+![bamazon Manager view products](images/ManagerViewProducts.png)
+
+Users will view the following in the CLI when selecting View Low Inventory:
+![bamazon Manager view low inventory](images/ManagerLowInventory.png)
+
+Below is a sampling of a user that has added a new product to the marketplace as well as an updated view of the MySQL database showing the new product:
+![bamazon Manager Add New](images/ManagerAddNew.png)
+![bamazon Manager DB update](images/ManagerAddItem.png)
+
+Users may exit the CLI by selecting the Exti option:
+![bamazon Manager Exit](images/ManagerExit.png)
