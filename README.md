@@ -1,6 +1,4 @@
-Bamazon
-
-In this repository, Bamazon has been built to allow users the ability to create and maintain a marketplace using Node.js and MySQL.
+Bamazon is an application that allows users to create and maintain an online marketplace using Node.js and MySQL.
 
 Part I - Customer View
 
